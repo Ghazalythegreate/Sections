@@ -1,0 +1,8 @@
+F:\00-PROGRAMMING SOM\Sections\Sections\bin\Debug\som.Sections.addin
+F:\00-PROGRAMMING SOM\Sections\Sections\bin\Debug\Sections.dll
+F:\00-PROGRAMMING SOM\Sections\Sections\bin\Debug\Sections.pdb
+F:\00-PROGRAMMING SOM\Sections\Sections\obj\Debug\Sections.csprojResolveAssemblyReference.cache
+F:\00-PROGRAMMING SOM\Sections\Sections\obj\Debug\Sections.dll
+F:\00-PROGRAMMING SOM\Sections\Sections\obj\Debug\Sections.pdb
+F:\00-PROGRAMMING SOM\Sections\Sections\bin\Debug\DBLibrary.dll
+F:\00-PROGRAMMING SOM\Sections\Sections\bin\Debug\DBLibrary.pdb

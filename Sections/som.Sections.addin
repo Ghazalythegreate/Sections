@@ -1,0 +1,11 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">
+    <Name>Sections Application </Name>
+    <Assembly>Sections.dll</Assembly>
+    <FullClassName>SOM.RevitTools.Sections.App</FullClassName>
+    <ClientId>c7ed8150-8161-4cdb-af0a-be5c5eae22c2</ClientId>
+    <VendorId>Danny Bentley</VendorId>
+    <VendorDescription>danny.bentley@som.com</VendorDescription>
+  </AddIn>
+</RevitAddIns>
