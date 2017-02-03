@@ -17,16 +17,27 @@ namespace SOM.RevitTools.Sections
         {
             RibbonPanel p = GetRibbonPanel(a, "LACMA", "LACMA Section");
 
-            string createClassName = "SOM.RevitTools.Sections.CommandCreate";
+            string createStartClassName = "SOM.RevitTools.Sections.CommandCreateStart";
+            string createEndClassName = "SOM.RevitTools.Sections.CommandCreateEnd";
+            string createPerpendicularClassName = "SOM.RevitTools.Sections.CommandCreatePerpendicular";
             string updateClassName = "SOM.RevitTools.Sections.CommandUpdate";
-            string image = "LACMA DOORS.png";
+            string imageUP = "SectionUP.png";
+            string imageDN = "SectionDN.png";
+            string imagePR = "SectionPR.png";
+            string imageNW = "SectionNW.png";
 
-            PushButtonData btn1 = pushButton_Setting(p, createClassName, image, "Create Section", "CREATE");
-            PushButtonData btn2 = pushButton_Setting(p, updateClassName, image, "Update Section", "UPDATE");
+            PushButtonData btn1 = pushButton_Setting(p, createStartClassName, imageUP, "Create From Start Section", "CREATE AT START");
+            PushButtonData btn2 = pushButton_Setting(p, createEndClassName, imageDN, "Create From End Section", "CREATE AT END");
+            PushButtonData btn3 = pushButton_Setting(p, createPerpendicularClassName, imagePR, "Create From Perpendicular Section", "CREATE AT PER");
+            PushButtonData btn4 = pushButton_Setting(p, updateClassName, imageNW, "Update Section", "UPDATE SECTION");
 
             p.AddItem(btn1);
             p.AddSeparator();
             p.AddItem(btn2);
+            p.AddSeparator();
+            p.AddItem(btn3);
+            p.AddSeparator();
+            p.AddItem(btn4);
 
             a.ApplicationClosing += a_ApplicationClosing;
 
