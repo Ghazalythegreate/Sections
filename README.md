@@ -7,7 +7,7 @@ Also look at my [DBLibrary](https://github.com/dannysbentley/DBLibrary) for miss
 
 ## Usage
 
-Work with Revit. Developed with Revit API 2016.
+Works in conjuntion with Revit. Developed with Revit API 2016.
 
 
 ## License
