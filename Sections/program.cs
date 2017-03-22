@@ -30,6 +30,7 @@ namespace SOM.RevitTools.Sections
             BoundingBoxXYZ bb = wall.get_BoundingBox(null);
             double minZ = bb.Min.Z;
             double maxZ = bb.Max.Z;
+            double h = maxZ - minZ;
 
             LocationCurve lc = wall.Location as LocationCurve;
             Line line = lc.Curve as Line;
@@ -42,8 +43,8 @@ namespace SOM.RevitTools.Sections
             double offset = 3; // offset by 3 feet. 
 
             //Max/Min X = Section line Length, Max/Min Y is the height of the section box, Max/Min Z far clip
-            XYZ min = new XYZ(-halfLength, minZ - offset, -offset);
-            XYZ max = new XYZ( halfLength, maxZ + offset, offset);
+            XYZ min = new XYZ(-halfLength, -h - 1, -offset);
+            XYZ max = new XYZ(halfLength, h + 1, offset);
 
             XYZ midpoint = q + 0.5 * v; // q get lower midpoint. 
             XYZ walldir = v.Normalize();
@@ -62,13 +63,31 @@ namespace SOM.RevitTools.Sections
             sectionBox.Max = max; // scope box end
 
             ViewFamilyType vft = viewFamilyType(doc);
+            View viewTemplate = libGet.GetViewTemplate(doc, "Z-ELEV ARCH OFF");
+            ViewSection vs = null;
 
             //Create wall section view 
             using (Transaction tx = new Transaction(doc))
             {
-                tx.Start("Create Section");
-                ViewSection.CreateSection(doc, vft.Id, sectionBox);
-                tx.Commit();
+                try
+                {
+                    tx.Start("Create Section");
+                    vs = ViewSection.CreateSection(doc, vft.Id, sectionBox);
+                    tx.Commit();
+                }
+                catch { }
+            }
+            
+            using (Transaction tr = new Transaction(doc))
+            {
+                try
+                {
+                    tr.Start("Apply Structural View Template");
+                    vs.ViewTemplateId = viewTemplate.Id;
+                    vs.Scale = 24;
+                    tr.Commit();
+                }
+                catch { }
             }
         }
 
@@ -88,6 +107,7 @@ namespace SOM.RevitTools.Sections
             BoundingBoxXYZ bb = wall.get_BoundingBox(null);
             double minZ = bb.Min.Z;
             double maxZ = bb.Max.Z;
+            double h = maxZ - minZ;
 
             LocationCurve lc = wall.Location as LocationCurve;
             Line line = lc.Curve as Line;
@@ -101,8 +121,8 @@ namespace SOM.RevitTools.Sections
             double offset = 3; // offset by 3 feet. 
 
             //Max/Min X = Section line Length, Max/Min Y is the height of the section box, Max/Min Z far clip
-            XYZ min = new XYZ(-halfLength, minZ - offset, -offset);
-            XYZ max = new XYZ(halfLength, maxZ + offset, offset);
+            XYZ min = new XYZ(-halfLength, -h - 1, -offset);
+            XYZ max = new XYZ(halfLength, h + 1, offset);
 
             XYZ midpoint = q - 0.5 * v; // q get upper midpoint.
             XYZ walldir = v.Normalize();
@@ -121,13 +141,32 @@ namespace SOM.RevitTools.Sections
             sectionBox.Max = max; // scope box end
 
             ViewFamilyType vft = viewFamilyType(doc);
+            View viewTemplate = libGet.GetViewTemplate(doc, "Z-ELEV ARCH OFF");
+            ViewSection vs = null;
 
             //Create wall section view 
             using (Transaction tx = new Transaction(doc))
             {
-                tx.Start("Create Section");
-                ViewSection.CreateSection(doc, vft.Id, sectionBox);
-                tx.Commit();
+                try
+                {
+                    tx.Start("Create Section");
+                    vs = ViewSection.CreateSection(doc, vft.Id, sectionBox);
+                    doc.Regenerate();
+                    tx.Commit();
+                }
+                catch { }
+            }
+
+            using (Transaction tr = new Transaction(doc))
+            {
+                try
+                {
+                    tr.Start("Apply Structural View Template");
+                    vs.ViewTemplateId = viewTemplate.Id;
+                    vs.Scale = 24;
+                    tr.Commit();
+                }
+                catch { }
             }
         }
 
@@ -179,17 +218,34 @@ namespace SOM.RevitTools.Sections
             double maxZ = bb.Max.Z;
             double h = maxZ - minZ;
 
-            sectionBox.Min = new XYZ(-2 * d, -1, 0);
+            sectionBox.Min = new XYZ(-2 * d,-h -1, 0);
             sectionBox.Max = new XYZ(2 * d, h + 1, 5);
 
             ViewFamilyType vft = viewFamilyType(doc);
-
+            View viewTemplate = libGet.GetViewTemplate(doc, "Z-ELEV ARCH OFF");
+            ViewSection vs = null;
             //Create wall section view 
             using (Transaction tx = new Transaction(doc))
             {
-                tx.Start("Create Section");
-                ViewSection.CreateSection(doc, vft.Id, sectionBox);
-                tx.Commit();
+                try
+                {
+                    tx.Start("Create Section");
+                    vs = ViewSection.CreateSection(doc, vft.Id, sectionBox);
+                    doc.Regenerate();
+                    tx.Commit();
+                }
+                catch { }
+            }
+            using (Transaction t = new Transaction(doc))
+            {
+                try
+                {
+                    t.Start("Apply Structural View Template");
+                    vs.ViewTemplateId = viewTemplate.Id;
+                    vs.Scale = 24;
+                    t.Commit();
+                }
+                catch { }
             }
         }
 
