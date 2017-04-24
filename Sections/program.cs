@@ -31,6 +31,9 @@ namespace SOM.RevitTools.Sections
             double minZ = bb.Min.Z;
             double maxZ = bb.Max.Z;
             double h = maxZ - minZ;
+            Level level = doc.ActiveView.GenLevel;
+            double top = 90 - level.Elevation;
+            double bottom = -(level.Elevation + 25);
 
             LocationCurve lc = wall.Location as LocationCurve;
             Line line = lc.Curve as Line;
@@ -43,8 +46,8 @@ namespace SOM.RevitTools.Sections
             double offset = 3; // offset by 3 feet. 
 
             //Max/Min X = Section line Length, Max/Min Y is the height of the section box, Max/Min Z far clip
-            XYZ min = new XYZ(-halfLength, -h - 1, -offset);
-            XYZ max = new XYZ(halfLength, h + 1, offset);
+            XYZ min = new XYZ(-halfLength, bottom, -offset);
+            XYZ max = new XYZ(halfLength, top, offset);
 
             XYZ midpoint = q + 0.5 * v; // q get lower midpoint. 
             XYZ walldir = v.Normalize();
@@ -108,6 +111,9 @@ namespace SOM.RevitTools.Sections
             double minZ = bb.Min.Z;
             double maxZ = bb.Max.Z;
             double h = maxZ - minZ;
+            Level level = doc.ActiveView.GenLevel;
+            double top = 90 - level.Elevation;
+            double bottom = -(level.Elevation + 25);
 
             LocationCurve lc = wall.Location as LocationCurve;
             Line line = lc.Curve as Line;
@@ -121,8 +127,8 @@ namespace SOM.RevitTools.Sections
             double offset = 3; // offset by 3 feet. 
 
             //Max/Min X = Section line Length, Max/Min Y is the height of the section box, Max/Min Z far clip
-            XYZ min = new XYZ(-halfLength, -h - 1, -offset);
-            XYZ max = new XYZ(halfLength, h + 1, offset);
+            XYZ min = new XYZ(-halfLength, bottom, -offset);
+            XYZ max = new XYZ(halfLength, top, offset);
 
             XYZ midpoint = q - 0.5 * v; // q get upper midpoint.
             XYZ walldir = v.Normalize();
