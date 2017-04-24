@@ -183,7 +183,7 @@ namespace SOM.RevitTools.Sections
                 wall = e as Wall;
             LocationCurve lc = wall.Location as LocationCurve;
             Transform curveTransform = lc.Curve.ComputeDerivatives(0.5, true);
-
+            
             // The transform contains the location curve
             // mid-point and tangent, and we can obtain
             // its normal in the XY plane:
@@ -217,9 +217,13 @@ namespace SOM.RevitTools.Sections
             double minZ = bb.Min.Z;
             double maxZ = bb.Max.Z;
             double h = maxZ - minZ;
+            // Z value offset from the current level in view. 
+            Level level = doc.ActiveView.GenLevel;
+            double top = 90 - level.Elevation;
+            double bottom = -(level.Elevation + 25);
 
-            sectionBox.Min = new XYZ(-2 * d,-h -1, 0);
-            sectionBox.Max = new XYZ(2 * d, h + 1, 5);
+            sectionBox.Min = new XYZ(-2 * d, bottom, 0);
+            sectionBox.Max = new XYZ(2 * d,top, 5);
 
             ViewFamilyType vft = viewFamilyType(doc);
             View viewTemplate = libGet.GetViewTemplate(doc, "Z-ELEV ARCH OFF");
